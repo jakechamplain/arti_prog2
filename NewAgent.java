@@ -40,6 +40,9 @@ public class NewAgent implements Agent {
 	// lastMove is null the first time nextAction gets called (in the initial state)
     // otherwise it contains the coordinates x1,y1,x2,y2 of the move that the last player did
     public String nextAction(int[] lastMove) {
+    	System.out.println("*****************************************");
+    	System.out.println("*****************************************");
+    	System.out.println("*****************************************");
     	if (lastMove != null) {
     		int x1 = lastMove[0], y1 = lastMove[1], x2 = lastMove[2], y2 = lastMove[3];
     		String roleOfLastPlayer;
@@ -55,8 +58,10 @@ public class NewAgent implements Agent {
    	   			board = node1.getState().getBoard();
    			}
    			counter++;
-   			node1 = new Node(roleOfLastPlayer, myTurn, width, height, board ,x1,y1,x2,y2); 
+   			node1 = new Node(roleOfLastPlayer, myTurn, width, height, board , null, x1,y1,x2,y2); 
    			node1.getState().printBoard();
+   			
+   			
  
     	} else { //WARNING Spaghetti code
     		node1 = node0; //Used so that the code after this runs even if "lastMove" is 'null'.
@@ -67,10 +72,14 @@ public class NewAgent implements Agent {
 		if (myTurn) {
 			// TODO: 2. run alpha-beta search to determine the best move
 			System.out.println("The value given by the evaluation function is therefore " + eval.simpleEval(node1.getState()));
-   			legalMoves = node1.getState().getLegalMoves(role);
-   			if (legalMoves.isEmpty()) {
-   				System.out.println("NO LEGAL MOVES AVILABLE!");
-   			}
+   			// legalMoves = node1.getState().getLegalMoves(role);
+   			
+   			SearchTree search = new SearchTree(node1, role, width, height);
+   			search.initNegaMax(2, node1, role);
+   			
+   			//if (legalMoves.isEmpty()) {
+   			//	System.out.println("NO LEGAL MOVES AVILABLE!");
+   			//}
 			// Here we just construct a random move (that will most likely not even be possible),
 			// this needs to be replaced with the actual best move.
 			/*

@@ -11,6 +11,7 @@ public class State {
 	char[] board;
 	int whitePawns;
 	int blackPawns;
+	boolean isTerminal;
 	
 	//Constructor
 	public State(int w, int h) { //Initial State
@@ -22,6 +23,7 @@ public class State {
 		board = new char[size];
 		initState(); //Puts the pieces in the starting position
 		printBoard();
+		isTerminal = false;
 	}
 	
 	public State(boolean myT, int w, int h, char[] b) { //Second Constructor
@@ -30,7 +32,7 @@ public class State {
 		height = h;
 		size = width*height;
 		board = b;
-		
+		isTerminal = false;
 
 	}
 	
@@ -140,6 +142,9 @@ public class State {
 				}
 			}
 		}
+		if(legalMoves.isEmpty()) {
+			isTerminal = true;
+		}
 		System.out.println("There are " + match + " " + role + " pieces in total");
 		return legalMoves;
 	}
@@ -184,6 +189,20 @@ public class State {
 			}
 		}
 		return out;
+	}
+	
+	public boolean testIfTerminal() {
+		for (int i = 0; i < width; i++) {
+			if ((board[i] == 'w') || (board[i + size - width] == 'b')) {
+				isTerminal = true;
+			}
+		}
+		
+		return isTerminal;
+	}
+	
+	public boolean getMyTurn() {
+		return myTurn;
 	}
 	
 	public char[] getBoard() {
