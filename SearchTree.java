@@ -23,7 +23,7 @@ public class SearchTree {
 		String r2;
 		int bestValue, score;
 		Node child;
-		int index = 4; //remember to change this later for other boards
+		int index = 4; //Remember to change this later for other boards
 		
 		bestValue = Integer.MIN_VALUE;
 		if (r.equals("black")) {
@@ -34,14 +34,17 @@ public class SearchTree {
 		moves = n.getState().getLegalMoves(r);
 		for (int i = 0; i < moves.size(); i++) {
 			//Create an new Node and call NegaMax again!
+			int sum = i + 1; //TODO delete this
+			System.out.println("		OPTION NUMBER " + sum);
 			child = expand(n, moves.get(i)); 
 			//child.getState().printBoard();
-			System.out.println("THIS WAS CREATED BY MOVE: " + moves.get(i));
+			System.out.println("       Take the move: " + moves.get(i));
 			score = -negaMax(depth - 1, child, r2);
-			System.out.println("CHILD SCORE IS: " + score);
+			System.out.println("IF WE TOOK THIS OPTION, THE SCORE WOULD BE: " + score);
 			System.out.println("CURRENT BEST SCORE: " + bestValue);
-			System.out.println("*****************************************");
-			if (score > bestValue) {
+			System.out.println("  *****************************************");
+			System.out.println("  *****************************************");
+			if (score > bestValue) { //We'll always take the biggest value
 				bestValue = score;
 				index = i;
 			}
@@ -55,18 +58,27 @@ public class SearchTree {
 		String r2;
 		int bestValue, score;
 		Node child;
-		
+
 		if (depth <= 0 || n.getState().testIfTerminal()) {
-			return 2;
+			System.out.println(" THE BOARD OF THIS LEAF NODE IS:");
+			n.getState().printBoard();
+			if (r.equals("black")) {
+				return -eval.simpleEval(n.getState());
+			} else { 
+				return eval.simpleEval(n.getState());
+			}	
 		}
 		bestValue = Integer.MIN_VALUE;
 		if (r.equals("black")) {
 			r2 = "white";
-		} else {
+		} else { 
 			r2 = "black";
 		}
+		System.out.println(" ...then, the options of " + r + " are the following:");
 		moves = n.getState().getLegalMoves(r);
+		System.out.println(" So there are " + moves.size() + " avilable moves for " + r + " in total");
 		for (int i = 0; i < moves.size(); i++) {
+			System.out.println("OPTION " + i);
 			//Create an new Node and call NegaMax again!
 			child = expand(n, moves.get(i)); 
 			score = -negaMax(depth - 1, child, r2);
@@ -74,6 +86,8 @@ public class SearchTree {
 			if (score > bestValue) {
 				bestValue = score;
 			}
+			System.out.println(" For " + r + " the obtained score was " + score);
+			System.out.println("         *************************");
 		}
 		return bestValue;
 	}
@@ -91,20 +105,22 @@ public class SearchTree {
 		
 		boolean turn = !currentNode.getState().getMyTurn();
 		char[] parentBoard = currentNode.getState().getBoard().clone();
-		
+		String player;
+		if (turn) {
+			player = this.role;
+		} else {
+			if (role.equals("black")) {
+				player = "white";
+			} else {
+				player = "black";
+			}	
+		}
 		int x1 = moveArray[0], y1 = moveArray[1], x2 = moveArray[2], y2 = moveArray[3];
-		Node child = new Node(this.role, turn, this.width, this.height, parentBoard, currentNode, x1, y1, x2, y2);
+		Node child = new Node(player, turn, this.width, this.height, parentBoard, currentNode, x1, y1, x2, y2);
 		
 		return child;
-		
-		
-		//System.out.println("************************************************************************************");
-		//System.out.println("CHILD TURN: " + turn + "\n MOVE FROM: " + x1 + ", " + y1 + " TO: " + x2 + ", " + y2);
-		//System.out.println("************************************************************************************");
 	}
 	
 	
 
 }
-
-

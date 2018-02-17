@@ -15,6 +15,7 @@ public class State {
 	
 	//Constructor
 	public State(int w, int h) { //Initial State
+		isTerminal = false;
 		width = w;
 		height = h;
 		size = width*height;
@@ -22,17 +23,18 @@ public class State {
 		blackPawns = width*2;  //For now it only returns 0,0 or -1 if a piece has been eater
 		board = new char[size];
 		initState(); //Puts the pieces in the starting position
+		System.out.println(" New Board Created:");
 		printBoard();
-		isTerminal = false;
 	}
 	
 	public State(boolean myT, int w, int h, char[] b) { //Second Constructor
+		isTerminal = false;
 		myTurn = myT;
 		width = w;
 		height = h;
 		size = width*height;
 		board = b;
-		isTerminal = false;
+		
 
 	}
 	
@@ -54,7 +56,7 @@ public class State {
 		int indx1 = width*(height-y1)+x1-1; //Transform coordinates to index in our array
 		int indx2 = width*(height-y2)+x2-1;
 		
-		if (role == "black") {
+		if (role.equals("black")) {
 			color = 'b';
 		} else {
 			color = 'w';
@@ -83,7 +85,8 @@ public class State {
 		int y2;
 		ArrayList<String> legalMoves = new ArrayList<String>();
 		legalMoves.clear();
-		if (role == "black") { //TODO There is a bug and does not work well when the agent is the Black player!
+		//System.out.println("  Legal Moves:  ");
+		if (role.equals("black")) { //TODO There is a bug and does not work well when the agent is the Black player!
 			color = 'b';
 		} else {
 			color = 'w';
@@ -142,7 +145,7 @@ public class State {
 				}
 			}
 		}
-		if(legalMoves.isEmpty()) {
+		if (legalMoves.isEmpty()) {
 			isTerminal = true;
 		}
 		System.out.println("There are " + match + " " + role + " pieces in total");
@@ -204,7 +207,7 @@ public class State {
 	public boolean getMyTurn() {
 		return myTurn;
 	}
-	
+		
 	public char[] getBoard() {
 		return board.clone();
 	}
@@ -215,6 +218,10 @@ public class State {
 	
 	public int getHeight() {
 		return height;
+	}
+	
+	public boolean getTurn() {
+		return myTurn;
 	}
 	
 	

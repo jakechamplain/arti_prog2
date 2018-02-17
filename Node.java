@@ -4,11 +4,12 @@ public class Node {
 	private State state;
 	private Node parent;
 	private ArrayList<Node> children;
+	private String player;
 	
 	//Constructor #1
 	public Node(String role, int w, int h) { //Root Node
-		state = new State(w,h); //We are NOT using 'role', at least for now
-		parent = null;
+		state = new State(w,h); //We are NOT using 'role' here, at least for now
+		parent = null; //Since it's the root Node
 		children = new ArrayList<Node>();
 	}
 	
@@ -20,9 +21,7 @@ public class Node {
 	}
 	
 	//Methods
-	
-	
 	public State getState() {
-		return new State(state.getMyTurn(), state.getHeight(), state.getHeight(), state.getBoard()); //Careful with this, maybe we'll need to clone instead
+		return new State(state.getMyTurn(), state.getWidth(), state.getHeight(), state.getBoard()); //Careful with this, maybe we'll need to clone instead
 	}
  }
