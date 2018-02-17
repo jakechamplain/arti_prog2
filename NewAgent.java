@@ -55,7 +55,7 @@ public class NewAgent implements Agent {
    	   			board = node1.getState().getBoard();
    			}
    			counter++;
-   			node1 = new Node(roleOfLastPlayer, myTurn, width, height, board, null ,x1,y1,x2,y2); 
+   			node1 = new Node(roleOfLastPlayer, myTurn, width, height, board, node1 ,x1,y1,x2,y2); 
    	   	   	System.out.println("Resulting Board:");
    			node1.getState().printBoard();
  

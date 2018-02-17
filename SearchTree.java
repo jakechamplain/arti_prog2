@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.lang.*;
+
 
 public class SearchTree {
 	private Node root;
@@ -50,7 +50,7 @@ public class SearchTree {
 			}
 			
 		}
-		return n.getState().getLegalMoves(r).get(index);
+		return moves.get(index);
 	}
 	
 	public int negaMax(int depth, Node n, String r) {
@@ -63,9 +63,11 @@ public class SearchTree {
 			System.out.println(" THE BOARD OF THIS LEAF NODE IS:");
 			n.getState().printBoard();
 			if (r.equals("black")) {
-				return -eval.simpleEval(n.getState());
+				return -eval.advancedEval(n.getState());
+				//return -eval.simpleEval(n.getState());
 			} else { 
-				return eval.simpleEval(n.getState());
+				return eval.advancedEval(n.getState());
+				//return eval.simpleEval(n.getState());
 			}	
 		}
 		bestValue = Integer.MIN_VALUE;

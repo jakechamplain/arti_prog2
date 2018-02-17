@@ -21,14 +21,63 @@ public class EvalFunction {
 		} else if (blackWins()) {
 			return -100;
 		} else {
-			score = distanceClosestBlack(board) - distanceClosestWhite(board); 
+			score = distanceFurthestBlack(board) - distanceFurthestWhite(board); 
 			//distance of most advanced black pawn to row 1 - distance of most advanced white pawn to row H
 			return score;
 		}
 
 	}
 	
-	private int distanceClosestBlack(char[] b) { //Distance from the winning line for the Black piece that is closest
+	public int advancedEval(State state) {
+		int score;
+		board = state.getBoard();
+		if (whiteWins()) {	
+			return 100;	
+		} else if (blackWins()) {
+			return -100;
+		} else { // this is only for white player. we will need to check the role and modify this method for black player
+			score = state.getWhitePawns() * state.getWidth() * 2  
+					+ (this.distanceFurthestBlack(board) - this.distanceFurthestWhite(board)) * state.getHeight()
+					+ (this.numFreeWhiteColumns(board) - this.numFreeBlackColumns(board)) *3;
+			return score;
+		}
+	}
+	
+	private int numFreeBlackColumns(char[] b) {
+		int count = 0;
+		for (int i = 0; i < b.length; i++) {
+			if (b[i] == 'b') {
+				for (int j = i + width; j < width*height; j += width) {
+					if (b[j] != 'e') {
+						break;
+					} else if (b[j] == 'e' && j / width == height - 1) {
+						count++;
+					}
+				}
+			}
+		}
+		
+		return count;
+	}
+	
+	private int numFreeWhiteColumns(char[] b) {
+		int count = 0;
+		for (int i = width*height-1; i >= 0; i--) {
+			if (b[i] == 'b') {
+				for (int j = i - width; j >= 0; j -= width) {
+					if (b[j] != 'e') {
+						break;
+					} else if (b[j] == 'e' && j / width == 0) {
+						count++;
+					}
+				}
+			}
+		}
+		
+		return count;
+	}
+	
+	private int distanceFurthestBlack(char[] b) { //Distance from the winning line for the Black piece that is closest
 		int indx = 0;
 		for (int i = width*height-1; i >= 0 ; i--) { //Would probably be faster if we iterated from left to right keeping count of found Black pieces
 			if (b[i] == 'b') {
@@ -41,7 +90,7 @@ public class EvalFunction {
 		return scoreb;
 	}
 	
-	private int distanceClosestWhite(char[] b) { //Distance from the winning line for the White piece that is closest
+	private int distanceFurthestWhite(char[] b) { //Distance from the winning line for the White piece that is closest
 		int indx = 0;
 		for (int i = 0; i < b.length; i++) { //Would be faster if we instead iterated from right to left keeping count of found White pieces!
 			if (b[i] == 'w') {
@@ -55,32 +104,24 @@ public class EvalFunction {
 	}
 	
 	private boolean whiteWins() { //Has White won?
-		int winner = 0;
 		for (int i = 0; i < width; i++) {
 			if (board[i] == 'w') {
-				winner++;
+				System.out.println("WHITE WINS HERE");
+				return true;
 			}		
 		}
-		if (winner > 0) {
-			System.out.println("WHITE WINS HERE");
-			return true;
-		} else {
-			return false;
-		}
+
+		return false;
 	}
 	
 	private boolean blackWins() { //Has Black won?
-		int winner = 0;
-		for (int i = width*height - 1; i == width*(height-1); i--) { //Very possible mistake with indexes
+		for (int i = width*height - 1; i >= width*(height-1); i--) { //Very possible mistake with indexes
 			if (board[i] == 'b') {
-				winner++;
+				System.out.println("BLACK WINS HERE");
+				return true;
 			}		
 		}
-		if (winner > 0) {
-			System.out.println("BLACK WINS HERE");
-			return true;
-		} else {
-			return false;
-		}
+
+		return false;
 	}
 }
