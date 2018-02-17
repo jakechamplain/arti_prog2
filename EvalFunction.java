@@ -19,7 +19,7 @@ public class EvalFunction {
 		if (whiteWins()) {	
 			return 100;	
 		} else if (blackWins()) {
-			return 0;
+			return -100;
 		} else {
 			score = distanceClosestBlack(board) - distanceClosestWhite(board); 
 			//distance of most advanced black pawn to row 1 - distance of most advanced white pawn to row H
@@ -62,6 +62,7 @@ public class EvalFunction {
 			}		
 		}
 		if (winner > 0) {
+			System.out.println("WHITE WINS HERE");
 			return true;
 		} else {
 			return false;
@@ -71,11 +72,12 @@ public class EvalFunction {
 	private boolean blackWins() { //Has Black won?
 		int winner = 0;
 		for (int i = width*height - 1; i == width*(height-1); i--) { //Very possible mistake with indexes
-			if (board[i] == 'w') {
+			if (board[i] == 'b') {
 				winner++;
 			}		
 		}
 		if (winner > 0) {
+			System.out.println("BLACK WINS HERE");
 			return true;
 		} else {
 			return false;
