@@ -14,7 +14,7 @@ public class Node {
 	}
 	
 	public Node(String role, boolean t, int w, int h, char[] b, Node p, int x1, int y1, int x2, int y2) { //Every other Node
-		state = new State(t,w,h,b);
+		state = new State(t,w,h,b, p.getState().getWhitePawns(), p.getState().getBlackPawns());
 		state.updateState(role, x1, y1, x2, y2);
 		parent = p;
 		children = new ArrayList<Node>();
@@ -22,6 +22,6 @@ public class Node {
 	
 	//Methods
 	public State getState() {
-		return new State(state.getMyTurn(), state.getWidth(), state.getHeight(), state.getBoard()); //Careful with this, maybe we'll need to clone instead
+		return new State(state.getMyTurn(), state.getWidth(), state.getHeight(), state.getBoard(), state.getWhitePawns(), state.getBlackPawns()); //Careful with this, maybe we'll need to clone instead
 	}
  }

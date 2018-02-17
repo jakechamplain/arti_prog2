@@ -27,13 +27,16 @@ public class State {
 		printBoard();
 	}
 	
-	public State(boolean myT, int w, int h, char[] b) { //Second Constructor
+	public State(boolean myT, int w, int h, char[] b, int wp, int bp) { //Second Constructor
 		isTerminal = false;
 		myTurn = myT;
 		width = w;
 		height = h;
 		size = width*height;
 		board = b;
+		// both whitePawns and blackPawns will be updated to the correct number in updateState method
+		whitePawns = wp; // wp is the whitePawn count from the parent node
+		blackPawns = bp; // bp is the blackPawn count from the parent node
 		
 
 	}
@@ -207,10 +210,6 @@ public class State {
 	public boolean getMyTurn() {
 		return myTurn;
 	}
-		
-	public char[] getBoard() {
-		return board.clone();
-	}
 	
 	public int getWidth() {
 		return width;
@@ -220,10 +219,17 @@ public class State {
 		return height;
 	}
 	
-	public boolean getTurn() {
-		return myTurn;
+	public char[] getBoard() {
+		return board.clone();
 	}
 	
+	public int getWhitePawns() {
+		return whitePawns;
+	}
+	
+	public int getBlackPawns() {
+		return blackPawns;
+	}
 	
 	public void printBoard() {
 		//Code that prints the board in this State
