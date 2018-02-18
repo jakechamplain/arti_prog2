@@ -36,9 +36,9 @@ public class EvalFunction {
 		} else if (blackWins()) {
 			return -100;
 		} else { // this is only for white player. we will need to check the role and modify this method for black player
-			score = state.getWhitePawns() * state.getWidth() * 2  
+			score = state.getWhitePawns() * state.getWidth() * 1  
 					+ (this.distanceFurthestBlack(board) - this.distanceFurthestWhite(board)) * state.getHeight()
-					+ (this.numFreeWhiteColumns(board) - this.numFreeBlackColumns(board)) *3;
+					+ (this.numFreeWhiteColumns(board) - this.numFreeBlackColumns(board));
 			return score;
 		}
 	}
@@ -86,7 +86,7 @@ public class EvalFunction {
 			}
 		}
 		int scoreb = height - indx/width - 1;
-		System.out.println("The distance of the most advanced Black piece to the finish line is " + scoreb);
+		//System.out.println("The distance of the most advanced Black piece to the finish line is " + scoreb);
 		return scoreb;
 	}
 	
@@ -99,14 +99,14 @@ public class EvalFunction {
 			}
 		}
 		int scorew =  indx/width;
-		System.out.println("The distance of the most advanced White piece to the finish line is " + scorew);
+		//System.out.println("The distance of the most advanced White piece to the finish line is " + scorew);
 		return scorew;
 	}
 	
 	private boolean whiteWins() { //Has White won?
 		for (int i = 0; i < width; i++) {
 			if (board[i] == 'w') {
-				System.out.println("WHITE WINS HERE");
+				//System.out.println("WHITE WINS HERE");
 				return true;
 			}		
 		}
@@ -117,7 +117,7 @@ public class EvalFunction {
 	private boolean blackWins() { //Has Black won?
 		for (int i = width*height - 1; i >= width*(height-1); i--) { //Very possible mistake with indexes
 			if (board[i] == 'b') {
-				System.out.println("BLACK WINS HERE");
+				//System.out.println("BLACK WINS HERE");
 				return true;
 			}		
 		}

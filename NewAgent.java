@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-
 public class NewAgent implements Agent {
 
 	private Random random = new Random();
@@ -19,6 +18,7 @@ public class NewAgent implements Agent {
 	int counter = 0;
 	char[] board;
 	String nextMove;
+
 	
 	/*
 		init(String role, int playclock) is called once before you have to select the first action. Use it to initialize the agent. role is either "white" or "black" and playclock is the number of seconds after which nextAction must return.
@@ -67,38 +67,41 @@ public class NewAgent implements Agent {
     	   	System.out.println("*****************************************");
        	System.out.println("   NEW TURN   ");
     	   	System.out.println("*****************************************");
+    	   	
+
     	
 		myTurn = !myTurn;
 		if (myTurn) {
 			// TODO: 2. run alpha-beta search to determine the best move
-			System.out.println("The value given FOR WHITE by the evaluation function is therefore " + eval.simpleEval(node1.getState()));
-   			
+    		long startTime = 0;
+    		long estimatedTime = 0;
+    		long totalTime = 0;
+    		
+			startTime = System.currentTimeMillis();
 	       	System.out.println("   ...Starting Search...   ");
-			SearchTree search = new SearchTree(node1, role, width, height);
-			nextMove = search.initNegaMax(3, node1, role);
-			/*
-			legalMoves = node1.getState().getLegalMoves(role);
-   			if (legalMoves.isEmpty()) {
-   				System.out.println("NO LEGAL MOVES AVILABLE!");
-   			}
-			// Here we just construct a random move (that will most likely not even be possible),
-			// this needs to be replaced with the actual best move.
+	       	int depth = 1;
+	       	String bestYet;
+			SearchTree search = new SearchTree(node1, role, width, height, startTime, playclock);
+
+
 			
-			int x1,y1,x2,y2;
-			x1 = random.nextInt(width)+1;
-			x2 = x1 + random.nextInt(3)-1;
-			if (role.equals("white")) {
-				y1 = random.nextInt(height-1);
-				y2 = y1 + 1;
-			} else {
-				y1 = random.nextInt(height-1)+2;
-				y2 = y1 - 1;
+			try {
+				while (true) {
+					depth++;
+					bestYet = search.initNegaMax(depth, node1, role);
+					nextMove = bestYet;
+					estimatedTime = System.currentTimeMillis() - startTime;
+					System.out.println(" 'Estimated Time' of this loop is " + estimatedTime + "miliseconds");
+					totalTime = totalTime + estimatedTime;
+					}
+				
+			} catch (customException e){
+				System.out.println("EXCEPTION THROWN AND VALUE RETURNED");
+				System.out.println("The solution we used needed " + totalTime + " miliseconds to be found");
+				System.out.println("and reached depth " + depth);
+				return nextMove;
 			}
-			return "(move " + x1 + " " + y1 + " " + x2 + " " + y2 + ")";
-			*/
-   			
-   			//int i = random.nextInt(legalMoves.size()); //Select a random move from the set of legal moves
-   			return nextMove;//legalMoves.get(i);
+
 		} else {
 			return "noop";
 		}
